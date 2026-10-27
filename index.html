@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Aleatório 🎲</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: #eaeaea;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #e94560, #f5a623, #e94560);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .subtitle {
+            color: #8892b0;
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .fact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        #fact {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease;
+        }
+
+        #fact.fade {
+            opacity: 0;
+        }
+
+        button {
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #e94560, #f5a623);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(233, 69, 96, 0.35);
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(233, 69, 96, 0.5);
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .counter {
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #8892b0;
+            letter-spacing: 1px;
+        }
+
+        .counter span {
+            color: #f5a623;
+            font-weight: 700;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <h1>Portal Aleatório 🎲</h1>
+        <p class="subtitle">Descobre uma curiosidade aleatória a cada clique</p>
+
+        <div class="card">
+            <span class="fact-icon" id="icon">✨</span>
+            <p id="fact">Clica no botão para descobrires algo novo...</p>
+        </div>
+
+        <button id="btn">🎲 Curiosidade Aleatória</button>
+        <p class="counter">Curiosidades vistas: <span id="count">0</span></p>
+    </div>
+
+    <footer>Feito com HTML, CSS e JavaScript puro ✨</footer>
+
+    <script>
+        // Estrelas no fundo
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const size = Math.random() * 2.5 + 0.5;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Curiosidades aleatórias
+        const facts = [
+            { icon: '🐙', text: 'Os polvos têm três corações e sangue azul.' },
+            { icon: '🍯', text: 'O mel nunca se estraga — já se encontrou mel comestível em tumbas egípcias com mais de 3000 anos.' },
+            { icon: '🌙', text: 'Em Vénus, um dia dura mais do que um ano inteiro.' },
+            { icon: '🦈', text: 'Os tubarões existem há mais tempo do que as árvores.' },
+            { icon: '🍌', text: 'As bananas são ligeiramente radioativas, mas completamente seguras.' },
+            { icon: '🐌', text: 'Os caracóis podem dormir durante 3 anos seguidos.' },
+            { icon: '💡', text: 'A lâmpada mais antiga do mundo está acesa desde 1901.' },
+            { icon: '🦴', text: 'Os bebés nascem com cerca de 300 ossos, mas os adultos têm apenas 206.' },
+            { icon: '🌊', text: 'Explorámos mais de 80% da superfície de Marte do que o fundo dos nossos oceanos.' },
+            { icon: '🐝', text: 'Uma colher de chá de mel representa o trabalho de 12 abelhas ao longo da vida.' },
+            { icon: '🌍', text: 'A Terra é o único planeta conhecido que não recebeu o nome de um deus.' },
+            { icon: '🦋', text: 'As borboletas saboreiam com os pés.' },
+            { icon: '🧠', text: 'O cérebro humano consome cerca de 20% da energia total do corpo.' },
+            { icon: '🪐', text: 'Em Saturno, um dia tem apenas 10 horas e 33 minutos.' },
+            { icon: '🐼', text: 'Os pandas passam cerca de 14 horas por dia a comer bambu.' },
+            { icon: '⚡', text: 'Um relâmpago é cerca de 5 vezes mais quente do que a superfície do Sol.' },
+            { icon: '🦩', text: 'Os flamingos nascem cinzentos — ficam rosados por causa da dieta.' },
+            { icon: '🎵', text: 'A música pode reduzir a perceção da dor e melhorar o humor.' },
+            { icon: '🐋', text: 'O coração da baleia-azul é tão grande que um humano poderia passar por uma artéria.' },
+            { icon: '🌵', text: 'Os cactos armazenam água nas suas hastes para sobreviver em desertos.' }
+        ];
+
+        const factEl = document.getElementById('fact');
+        const iconEl = document.getElementById('icon');
+        const btn = document.getElementById('btn');
+        const countEl = document.getElementById('count');
+        let count = 0;
+        let lastIndex = -1;
+
+        function randomFact() {
+            let index;
+            do {
+                index = Math.floor(Math.random() * facts.length);
+            } while (index === lastIndex && facts.length > 1);
+            lastIndex = index;
+
+            factEl.classList.add('fade');
+            setTimeout(() => {
+                iconEl.textContent = facts[index].icon;
+                factEl.textContent = facts[index].text;
+                factEl.classList.remove('fade');
+            }, 300);
+
+            count++;
+            countEl.textContent = count;
+        }
+
+        btn.addEventListener('click', randomFact);
+    </script>
+</body>
+</html>
